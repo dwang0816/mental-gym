@@ -54,7 +54,7 @@ Most people's first AI experience is intimidating chatbots or complex tools. Men
 
 ### 1. Clone & Install
 ```bash
-git clone https://github.com/yourusername/mental-gym.git
+git clone https://github.com/dwang0816/mental-gym.git
 cd mental-gym
 npm install
 ```
