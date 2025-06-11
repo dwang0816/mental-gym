@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import type { Prompt } from '../services/prompts';
 import { getAIReflection } from '../services/claude';
 
