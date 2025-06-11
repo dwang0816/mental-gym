@@ -1,0 +1,370 @@
+/* Mental Gym App Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background-attachment: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 20% 20%, rgba(120, 190, 120, 0.3) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(100, 170, 200, 0.3) 0%, transparent 50%),
+    radial-gradient(circle at 40% 60%, rgba(150, 200, 150, 0.2) 0%, transparent 50%),
+    linear-gradient(135deg, 
+      rgba(102, 126, 234, 0.8) 0%, 
+      rgba(118, 75, 162, 0.8) 25%,
+      rgba(64, 154, 108, 0.8) 50%,
+      rgba(76, 175, 80, 0.8) 75%,
+      rgba(139, 195, 74, 0.8) 100%
+    );
+  z-index: -1;
+  animation: gentle-flow 20s ease-in-out infinite;
+}
+
+@keyframes gentle-flow {
+  0%, 100% { opacity: 0.8; transform: scale(1); }
+  50% { opacity: 0.9; transform: scale(1.05); }
+}
+
+#root {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.app {
+  max-width: 700px;
+  width: 100%;
+  padding: 40px 20px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  line-height: 1.6;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+}
+
+.app-header {
+  text-align: center;
+  margin-bottom: 40px;
+  padding: 30px 20px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  width: 100%;
+  max-width: 600px;
+}
+
+.app-header h1 {
+  margin: 0 0 10px 0;
+  font-size: 2.8rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.app-header p {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #558B2F;
+  font-weight: 500;
+  opacity: 0.9;
+}
+
+.app-main {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  width: 100%;
+  max-width: 600px;
+  align-items: center;
+}
+
+/* Prompt Card Styles */
+.prompt-card {
+  background: rgba(255, 255, 255, 0.95);
+  color: #2E7D32;
+  padding: 35px;
+  border-radius: 20px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  width: 100%;
+  max-width: 600px;
+  text-align: center;
+}
+
+.prompt-category {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.category-emoji {
+  font-size: 1.5rem;
+}
+
+.category-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #4CAF50;
+  opacity: 0.8;
+}
+
+.prompt-text {
+  font-size: 1.4rem;
+  font-weight: 400;
+  line-height: 1.6;
+  margin: 25px 0;
+  color: #2E7D32;
+  font-style: italic;
+}
+
+.new-prompt-btn {
+  background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%);
+  color: white;
+  border: none;
+  padding: 12px 28px;
+  border-radius: 25px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+}
+
+.new-prompt-btn:hover {
+  background: linear-gradient(135deg, #66BB6A 0%, #4CAF50 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+}
+
+/* Write Area Styles */
+.write-area {
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(10px);
+  width: 100%;
+  max-width: 600px;
+}
+
+.write-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.write-header h3 {
+  margin: 0;
+  color: #2c3e50;
+  font-size: 1.3rem;
+}
+
+.word-count {
+  color: #7f8c8d;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.write-textarea {
+  width: 100%;
+  min-height: 200px;
+  padding: 20px;
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-family: inherit;
+  line-height: 1.6;
+  resize: vertical;
+  transition: border-color 0.3s ease;
+  box-sizing: border-box;
+}
+
+.write-textarea:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.write-textarea::placeholder {
+  color: #adb5bd;
+  font-style: italic;
+}
+
+.write-actions {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.ai-feedback-btn {
+  background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%);
+  color: white;
+  border: none;
+  padding: 15px 35px;
+  border-radius: 25px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 20px rgba(76, 175, 80, 0.3);
+}
+
+.ai-feedback-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(76, 175, 80, 0.4);
+  background: linear-gradient(135deg, #66BB6A 0%, #4CAF50 100%);
+}
+
+.ai-feedback-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.ai-hint {
+  margin: 15px 0 0 0;
+  color: #7f8c8d;
+  font-size: 0.95rem;
+  font-style: italic;
+}
+
+/* AI Response Styles */
+.ai-response {
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(10px);
+  width: 100%;
+  max-width: 600px;
+}
+
+.ai-response-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #e9ecef;
+}
+
+.ai-response-header h3 {
+  margin: 0;
+  color: #2c3e50;
+  font-size: 1.3rem;
+}
+
+.ai-badge {
+  background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 25px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+}
+
+.ai-response-content {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: #495057;
+  margin-bottom: 20px;
+  white-space: pre-line;
+}
+
+.ai-response-footer {
+  padding-top: 15px;
+  border-top: 1px solid #dee2e6;
+}
+
+.ai-disclaimer {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #6c757d;
+  font-style: italic;
+  text-align: center;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .app {
+    padding: 15px;
+  }
+  
+  .app-header h1 {
+    font-size: 2rem;
+  }
+  
+  .prompt-card,
+  .write-area,
+  .ai-response {
+    padding: 20px;
+  }
+  
+  .prompt-text {
+    font-size: 1.2rem;
+  }
+  
+  .write-textarea {
+    min-height: 150px;
+    padding: 15px;
+  }
+  
+  .ai-response-header {
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  }
+}
+
+/* Loading Animation */
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+.ai-feedback-btn:disabled {
+  animation: pulse 1.5s infinite;
+}
