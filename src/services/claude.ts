@@ -46,6 +46,12 @@ Write as if you're having a friendly conversation.`
   }
 };
 
+// Utility function to add delay
+const delay = (ms: number): Promise<void> => {
+  return new Promise(resolve => setTimeout(resolve, ms));
+};
+
+// New streaming function with controlled speed
 export const getAIReflectionStream = async (
   entry: string, 
   prompt: string, 
@@ -82,20 +88,50 @@ Write as if you're having a friendly conversation.`
     });
 
     let fullResponse = '';
+    let buffer = '';
 
+    // Collect all chunks first
     for await (const chunk of stream) {
       const content = chunk.choices[0]?.delta?.content || '';
       if (content) {
         fullResponse += content;
-        onChunk(content);
+        buffer += content;
       }
     }
 
+    // Now stream the collected response with controlled timing
     if (!fullResponse.trim()) {
       onError("I appreciate you sharing your thoughts. There's something meaningful in what you've written.");
-    } else {
-      onComplete();
+      return;
     }
+
+    // Stream character by character with natural timing
+    let currentIndex = 0;
+    const streamWithDelay = async () => {
+      while (currentIndex < buffer.length) {
+        const char = buffer[currentIndex];
+        onChunk(char);
+        currentIndex++;
+        
+        // Variable delay based on character type for natural feel
+        let delayTime = 40; // Base delay (40ms per character)
+        
+        if (char === '.' || char === '!' || char === '?') {
+          delayTime = 300; // Longer pause after sentences
+        } else if (char === ',' || char === ';') {
+          delayTime = 150; // Medium pause after clauses
+        } else if (char === ' ') {
+          delayTime = 60; // Slight pause between words
+        } else if (char === '\n') {
+          delayTime = 200; // Pause for line breaks
+        }
+        
+        await delay(delayTime);
+      }
+      onComplete();
+    };
+
+    await streamWithDelay();
 
   } catch (error) {
     console.error('Error getting AI reflection stream:', error);
