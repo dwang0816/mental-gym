@@ -101,32 +101,6 @@ mental-gym/
 └── package.json                # Dependencies & scripts
 ```
 
-## 🚀 Deployment
-
-### Option A: Vercel (Recommended)
-```bash
-# 1. Push to GitHub
-git add .
-git commit -m "Add Mental Gym - AI reflection app"
-git push origin main
-
-# 2. Deploy to Vercel
-# - Visit vercel.com
-# - Import your GitHub repo
-# - Add environment variable: VITE_OPENAI_API_KEY
-# - Deploy!
-```
-
-### Option B: Netlify
-```bash
-# 1. Build the app
-npm run build
-
-# 2. Deploy
-# - Visit netlify.com  
-# - Drag & drop the 'dist' folder
-# - Add environment variable in Site Settings
-```
 
 ## 💰 Cost Analysis
 
@@ -142,36 +116,6 @@ npm run build
 **Accessibility First**: Works for all users, especially non-tech people
 **Privacy by Design**: No data collection, each session is independent
 
-## 🔧 Development Notes
-
-**Why This Architecture:**
-- **Client-side AI**: Simple deployment, no backend needed
-- **Environment Variables**: Secure API key handling
-- **React Hooks**: Clean state management without complexity
-- **TypeScript**: Type safety for reliable development
-
-**Customization Ideas:**
-- Add more prompt categories (career, relationships, creativity)
-- Implement prompt scheduling (different prompts by day/mood)
-- Add export functionality (save reflections as PDF)
-- Create prompt difficulty levels (beginner → advanced)
-
-## 🌟 Perfect for Portfolios
-
-**This project demonstrates:**
-- ✅ **AI Integration** - Real ChatGPT API usage
-- ✅ **User Experience** - Non-intimidating AI introduction  
-- ✅ **Security** - Proper API key handling
-- ✅ **Design Skills** - Beautiful, accessible UI
-- ✅ **Problem Solving** - Bridge between AI and everyday people
-
-## 📞 Contact & Social
-
-**Created by:** [Your Name]
-**LinkedIn:** [Your LinkedIn Profile]
-**Portfolio:** [Your Portfolio Website]
-
----
 
 ### 🤝 Contributing
 
