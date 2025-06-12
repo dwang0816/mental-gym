@@ -7,11 +7,16 @@ function App() {
   const [userEntry, setUserEntry] = useState('')
   const [aiResponse, setAiResponse] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [showExample, setShowExample] = useState(true)
 
   const handleNewPrompt = () => {
     setCurrentPrompt(getRandomPrompt())
     setUserEntry('')
     setAiResponse('')
+  }
+
+  const handleStartWriting = () => {
+    setShowExample(false)
   }
 
   return (
@@ -20,6 +25,59 @@ function App() {
         <h1>Mental Gym 🧠</h1>
         <p>Daily prompts to strengthen your thinking</p>
       </header>
+
+      {/* Example Section */}
+      {showExample && (
+        <div className="example-section">
+          <div className="example-header">
+            <h3>✨ Here's how it works</h3>
+            <p>See what a typical reflection looks like:</p>
+          </div>
+          
+          <div className="example-flow">
+            <div className="example-step">
+              <div className="step-number">1</div>
+              <div className="step-content">
+                <h4>🤔 You get a thoughtful prompt</h4>
+                <div className="example-prompt">
+                  "Think of a time when you had to make a difficult decision. What values guided your choice?"
+                </div>
+              </div>
+            </div>
+
+            <div className="example-step">
+              <div className="step-number">2</div>
+              <div className="step-content">
+                <h4>✍️ You share your thoughts</h4>
+                <div className="example-writing">
+                  "Last year I had to choose between a high-paying job and one that aligned with my values. I chose the meaningful work because I realized that feeling fulfilled at the end of each day was more important to me than a bigger paycheck. It was scary financially, but I knew I'd regret not following my heart."
+                </div>
+              </div>
+            </div>
+
+            <div className="example-step">
+              <div className="step-number">3</div>
+              <div className="step-content">
+                <h4>💭 AI offers gentle reflection</h4>
+                <div className="example-ai-response">
+                  "What strikes me about your story is how clearly you identified what truly matters to you - that sense of daily fulfillment. It takes courage to choose meaning over money, especially when there's financial uncertainty involved. 
+                  
+                  I'm curious: How has that decision shaped other choices you've made since then? It sounds like you've discovered something important about what drives you."
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="example-footer">
+            <button className="start-btn" onClick={handleStartWriting}>
+              Ready to try? Let's start! 🚀
+            </button>
+            <p className="example-note">
+              No signup required • Your thoughts stay private • Takes just 2-3 minutes
+            </p>
+          </div>
+        </div>
+      )}
 
       <main className="app-main">
         {/* Prompt Card */}
@@ -56,6 +114,7 @@ function App() {
           <textarea
             value={userEntry}
             onChange={(e) => setUserEntry(e.target.value)}
+            onFocus={handleStartWriting}
             placeholder="Start writing your thoughts here... Take your time and be honest with yourself."
             className="write-textarea"
             rows={8}

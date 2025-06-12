@@ -87,6 +87,135 @@ body::before {
   font-weight: 400;
 }
 
+/* Example Section Styles */
+.example-section {
+  background: rgba(245, 247, 250, 0.9);
+  border-radius: 16px;
+  padding: 35px;
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.12);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  width: 100%;
+  max-width: 600px;
+  margin-bottom: 10px;
+}
+
+.example-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.example-header h3 {
+  margin: 0 0 8px 0;
+  font-size: 1.4rem;
+  color: #1a202c;
+  font-weight: 600;
+}
+
+.example-header p {
+  margin: 0;
+  font-size: 1rem;
+  color: #5a6c7d;
+}
+
+.example-flow {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  margin-bottom: 30px;
+}
+
+.example-step {
+  display: flex;
+  gap: 15px;
+  align-items: flex-start;
+}
+
+.step-number {
+  background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+  color: white;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.step-content {
+  flex: 1;
+}
+
+.step-content h4 {
+  margin: 0 0 10px 0;
+  font-size: 1.1rem;
+  color: #2d3748;
+  font-weight: 600;
+}
+
+.example-prompt,
+.example-writing,
+.example-ai-response {
+  background: rgba(255, 255, 255, 0.8);
+  padding: 15px 18px;
+  border-radius: 12px;
+  border-left: 3px solid #4a5568;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #2d3748;
+}
+
+.example-prompt {
+  font-style: italic;
+  border-left-color: #6b7280;
+}
+
+.example-writing {
+  border-left-color: #059669;
+}
+
+.example-ai-response {
+  border-left-color: #7c3aed;
+  white-space: pre-line;
+}
+
+.example-footer {
+  text-align: center;
+  padding-top: 20px;
+  border-top: 1px solid rgba(226, 232, 240, 0.6);
+}
+
+.start-btn {
+  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+  color: white;
+  border: none;
+  padding: 14px 32px;
+  border-radius: 25px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(5, 150, 105, 0.3);
+  margin-bottom: 15px;
+}
+
+.start-btn:hover {
+  background: linear-gradient(135deg, #047857 0%, #059669 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(5, 150, 105, 0.4);
+}
+
+.example-note {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #6b7280;
+  font-style: italic;
+}
+
 .app-main {
   display: flex;
   flex-direction: column;
@@ -331,6 +460,19 @@ body::before {
     font-size: 2.2rem;
   }
 
+  .example-section {
+    padding: 25px 20px;
+  }
+
+  .example-step {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .step-number {
+    align-self: flex-start;
+  }
+
   .prompt-card,
   .write-area,
   .ai-response {
@@ -365,5 +507,20 @@ body::before {
   .ai-feedback-btn {
     padding: 12px 24px;
     font-size: 0.95rem;
+  }
+
+  .example-header h3 {
+    font-size: 1.2rem;
+  }
+
+  .step-content h4 {
+    font-size: 1rem;
+  }
+
+  .example-prompt,
+  .example-writing,
+  .example-ai-response {
+    font-size: 0.9rem;
+    padding: 12px 15px;
   }
 }
