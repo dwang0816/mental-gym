@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './App.css'
 import { getRandomPrompt } from './services/prompts'
+import { getAIReflectionStream, typewriterEffect } from './services/claude'
 
 function App() {
   const [currentPrompt, setCurrentPrompt] = useState(getRandomPrompt())
@@ -8,15 +9,69 @@ function App() {
   const [aiResponse, setAiResponse] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [showExample, setShowExample] = useState(true)
+  const [isStreaming, setIsStreaming] = useState(false)
+  const [displayedPrompt, setDisplayedPrompt] = useState('')
+
+  // Typewriter effect for prompts
+  useEffect(() => {
+    setDisplayedPrompt('')
+    const cleanup = typewriterEffect(
+      currentPrompt.text,
+      (text) => setDisplayedPrompt(text),
+      () => {},
+      25
+    )
+    return cleanup
+  }, [currentPrompt.text])
 
   const handleNewPrompt = () => {
-    setCurrentPrompt(getRandomPrompt())
+    const newPrompt = getRandomPrompt()
+    setCurrentPrompt(newPrompt)
     setUserEntry('')
     setAiResponse('')
+    setIsStreaming(false)
   }
 
   const handleStartWriting = () => {
     setShowExample(false)
+  }
+
+  const handleGetAIFeedback = async () => {
+    if (!userEntry.trim()) {
+      alert('Please write something first!')
+      return
+    }
+
+    setIsLoading(true)
+    setIsStreaming(true)
+    setAiResponse('')
+
+    try {
+      await getAIReflectionStream(
+        userEntry,
+        currentPrompt.text,
+        // onChunk - called for each piece of streamed text
+        (chunk: string) => {
+          setAiResponse(prev => prev + chunk)
+        },
+        // onComplete - called when streaming is done
+        () => {
+          setIsLoading(false)
+          setIsStreaming(false)
+        },
+        // onError - called if there's an error
+        (errorMessage: string) => {
+          setAiResponse(errorMessage)
+          setIsLoading(false)
+          setIsStreaming(false)
+        }
+      )
+    } catch (error) {
+      console.error('Error getting AI feedback:', error)
+      setAiResponse("Thanks for sharing your thoughts! I'm having trouble connecting right now, but your reflection is valuable.")
+      setIsLoading(false)
+      setIsStreaming(false)
+    }
   }
 
   return (
@@ -94,7 +149,10 @@ function App() {
           </div>
           
           <div className="prompt-text">
-            {currentPrompt.text}
+            {displayedPrompt}
+            {displayedPrompt.length < currentPrompt.text.length && (
+              <span className="typing-cursor">|</span>
+            )}
           </div>
           
           <button className="new-prompt-btn" onClick={handleNewPrompt}>
@@ -122,25 +180,7 @@ function App() {
           
           <div className="write-actions">
             <button 
-              onClick={async () => {
-                if (!userEntry.trim()) {
-                  alert('Please write something first!');
-                  return;
-                }
-
-                setIsLoading(true);
-                
-                try {
-                  const { getAIReflection } = await import('./services/claude');
-                  const response = await getAIReflection(userEntry, currentPrompt.text);
-                  setAiResponse(response);
-                } catch (error) {
-                  console.error('Error getting AI feedback:', error);
-                  setAiResponse("Thanks for sharing your thoughts! I'm having trouble connecting right now, but your reflection is valuable.");
-                } finally {
-                  setIsLoading(false);
-                }
-              }}
+              onClick={handleGetAIFeedback}
               disabled={isLoading || !userEntry.trim()}
               className="ai-feedback-btn"
             >
@@ -156,15 +196,20 @@ function App() {
         </div>
 
         {/* AI Response */}
-        {aiResponse && (
+        {(aiResponse || isStreaming) && (
           <div className="ai-response">
             <div className="ai-response-header">
               <h3>💭 AI Reflection</h3>
-              <span className="ai-badge">Powered by ChatGPT</span>
+              <span className="ai-badge">
+                {isStreaming ? 'Thinking...' : 'Powered by ChatGPT'}
+              </span>
             </div>
             
             <div className="ai-response-content">
               {aiResponse}
+              {isStreaming && (
+                <span className="streaming-cursor">▋</span>
+              )}
             </div>
             
             <div className="ai-response-footer">
