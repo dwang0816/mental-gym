@@ -1152,3 +1152,99 @@ body::before {
   from { opacity: 0; transform: scale(0.97); }
   to { opacity: 1; transform: scale(1); }
 }
+
+.faq-toggle {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: auto;
+  padding: 0.5em 1em;
+  font-size: 0.9rem;
+  font-weight: 600;
+  background: #fffbe6;
+  color: #2a3a5c;
+  border: 2px solid #ffb300;
+  border-radius: 999px;
+  box-shadow: 0 2px 8px 0 rgba(255, 179, 0, 0.08);
+  cursor: pointer;
+  transition: background 0.2s, border 0.2s;
+  outline: none;
+  z-index: 100;
+}
+
+.faq-toggle:active,
+.faq-toggle:focus {
+  background: #fff7c2;
+  border-color: #ffb300;
+}
+
+.faq-modal {
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(42, 58, 92, 0.18);
+  z-index: 1000;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 2.5rem;
+  backdrop-filter: blur(4px);
+}
+
+.faq-content {
+  background: linear-gradient(to bottom, #f8fafd, #f0f4f8);
+  border-radius: 20px;
+  box-shadow: 0 4px 20px 0 rgba(60,60,100,0.12);
+  padding: 1.5rem 1.2rem 1.2rem 1.2rem;
+  width: 95vw;
+  max-width: 600px;
+  max-height: 80vh;
+  overflow-y: auto;
+  position: relative;
+  animation: fadeInScale 0.3s ease-out;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.faq-content::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+.faq-item h3 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #2a3a5c;
+  margin-bottom: 0.7rem;
+  letter-spacing: -0.01em;
+}
+
+.faq-item p {
+  font-size: 1.05rem;
+  color: #7a7a8c;
+  line-height: 1.6;
+  margin-bottom: 1.2rem;
+}
+
+.close-faq {
+  position: absolute;
+  top: 0.7rem;
+  right: 1.1rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #7a7a8c;
+  cursor: pointer;
+  z-index: 2;
+  transition: color 0.2s;
+}
+
+.close-faq:hover {
+  color: #2a3a5c;
+}
+
+@keyframes fadeInScale {
+  from { opacity: 0; transform: scale(0.97); }
+  to { opacity: 1; transform: scale(1); }
+}

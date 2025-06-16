@@ -44,6 +44,7 @@ function App() {
     streak: 0
   })
   const [showMobileInsights, setShowMobileInsights] = useState(false)
+  const [showFAQ, setShowFAQ] = useState(false)
 
   const handleStartWriting = () => {
     setShowExample(false)
@@ -89,6 +90,61 @@ function App() {
         <h1 className="mental-gym-title">The Mental Gym</h1>
         <p>Daily prompts to strengthen your thinking</p>
       </header>
+
+      {/* FAQ Toggle Button */}
+      <button
+        className="faq-toggle"
+        onClick={() => setShowFAQ((v) => !v)}
+        aria-label="Toggle FAQ"
+      >
+        <span role="img" aria-label="faq">❓</span> FAQ
+      </button>
+
+      {/* FAQ Modal */}
+      {showFAQ && (
+        <div className="faq-modal" onClick={() => setShowFAQ(false)}>
+          <div className="faq-content" onClick={e => e.stopPropagation()}>
+            <button className="close-faq" onClick={() => setShowFAQ(false)} aria-label="Close FAQ">✕</button>
+            <h2>Frequently Asked Questions</h2>
+            <div className="faq-item">
+              <h3>What is The Mental Gym?</h3>
+              <p>The Mental Gym is a web app designed to strengthen your thinking through daily prompts. It offers thought-provoking questions across categories like emotional intelligence, creativity, and philosophy. Each prompt encourages deep reflection, and you can receive AI-powered feedback on your thoughts.</p>
+            </div>
+            <div className="faq-item">
+              <h3>How do I use The Mental Gym?</h3>
+              <p>Simply visit the app, read the daily prompt, and write your thoughts in the provided text area. Click "Get AI Reflection" to receive feedback. You can also click "Try Another Prompt" to explore different questions.</p>
+            </div>
+            <div className="faq-item">
+              <h3>What are the different prompt categories?</h3>
+              <p>Prompts are categorized into Emotional, Creative, Philosophical, and Meta. Each category focuses on different aspects of thinking and reflection.</p>
+            </div>
+            <div className="faq-item">
+              <h3>How does the AI feedback work?</h3>
+              <p>The app uses OpenAI's GPT-3.5-turbo to analyze your writing. The AI provides observations, gentle questions, and encouragement based on your input. It aims to feel like a thoughtful friend rather than a robotic assistant.</p>
+            </div>
+            <div className="faq-item">
+              <h3>Is my data private?</h3>
+              <p>Yes! The Mental Gym does not store any user data. Each session is independent, and your writing is only processed for the current interaction.</p>
+            </div>
+            <div className="faq-item">
+              <h3>What are Community Insights?</h3>
+              <p>Community Insights show aggregated stats from all users, such as total words written, AI reflections generated, and category distribution. It helps you see how others are engaging with the app.</p>
+            </div>
+            <div className="faq-item">
+              <h3>Is The Mental Gym free to use?</h3>
+              <p>Yes, The Mental Gym is completely free. There are no hidden costs or subscriptions.</p>
+            </div>
+            <div className="faq-item">
+              <h3>Can I use The Mental Gym on mobile?</h3>
+              <p>Absolutely! The app is fully responsive and works beautifully on both desktop and mobile devices. On mobile, Community Insights are toggled with a button for a cleaner experience.</p>
+            </div>
+            <div className="faq-item">
+              <h3>How can I contribute to The Mental Gym?</h3>
+              <p>Contributions are welcome! You can submit new prompts, improve the AI conversation flow, enhance the design, or make the experience more accessible. Check the README for details on how to contribute.</p>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Mobile Community Insights Toggle Button */}
       <button
