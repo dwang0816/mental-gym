@@ -1,8 +1,8 @@
-import type { CommunityStats } from '../services/stats';
+import type { CommunityStats as CommunityStatsType } from '../services/stats';
 import { formatNumber } from '../services/stats';
 
 interface CommunityStatsProps {
-  stats: CommunityStats;
+  stats: CommunityStatsType;
 }
 
 const CommunityStats = ({ stats }: CommunityStatsProps) => {

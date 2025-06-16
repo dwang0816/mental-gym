@@ -1,4 +1,4 @@
-import { Prompt } from './prompts';
+import type { Prompt } from './prompts';
 
 export interface CommunityStats {
   totalWords: number;
@@ -7,6 +7,7 @@ export interface CommunityStats {
     emotional: number;
     creative: number;
     philosophical: number;
+    meta: number;
   };
   averageReflectionLength: number;
   activeUsers: number;
@@ -30,7 +31,8 @@ export const initialCommunityStats: CommunityStats = {
   categoryDistribution: {
     emotional: 0,
     creative: 0,
-    philosophical: 0
+    philosophical: 0,
+    meta: 0
   },
   averageReflectionLength: 0,
   activeUsers: 0

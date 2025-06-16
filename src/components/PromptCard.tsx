@@ -1,4 +1,3 @@
-import React from 'react';
 import type { Prompt } from '../services/prompts';
 
 interface PromptCardProps {
