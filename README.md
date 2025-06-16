@@ -1,14 +1,14 @@
-# Mental Gym 🧠
+# The Mental Gym
 
-*Where everyday people meet AI in the most human way possible.*
+Welcome to **The Mental Gym** – a place to exercise your mind, strengthen your thinking, and join a community of thoughtful individuals.
 
 A beautifully designed web app that offers daily thinking prompts with ChatGPT-powered reflections. Built to introduce non-tech users to AI through meaningful, personal interactions.
 
-![Mental Gym Preview](https://via.placeholder.com/800x400/667eea/ffffff?text=Mental+Gym+🧠)
+![The Mental Gym Preview](https://via.placeholder.com/800x400/667eea/ffffff?text=The+Mental+Gym)
 
-## 🌟 Why Mental Gym?
+## 🌟 Why The Mental Gym?
 
-Most people's first AI experience is intimidating chatbots or complex tools. Mental Gym changes that by creating a **zen-like space** where AI feels like a thoughtful friend helping you reflect on life.
+Most people's first AI experience is intimidating chatbots or complex tools. The Mental Gym changes that by creating a **zen-like space** where AI feels like a thoughtful friend helping you reflect on life.
 
 ### 🎯 Perfect For:
 - **Anyone curious about AI** but intimidated by technical tools
@@ -23,7 +23,7 @@ Most people's first AI experience is intimidating chatbots or complex tools. Men
 - Centered, glassmorphism UI cards for calm focus
 - Mobile-first responsive design
 
-🧠 **Thoughtful Daily Prompts**
+📝 **Thoughtful Daily Prompts**
 - 10 carefully crafted questions across emotional intelligence, creativity, and philosophy
 - Categorized with intuitive emojis (💝 Emotional, 🎨 Creative, 🤔 Philosophical)
 - "Try Another Prompt" for variety
@@ -175,7 +175,7 @@ npm run build
 
 ### 🤝 Contributing
 
-Mental Gym is open to contributions! Feel free to:
+The Mental Gym is open to contributions! Feel free to:
 - Add new thoughtful prompts
 - Improve the AI conversation flow  
 - Enhance the zen design aesthetic

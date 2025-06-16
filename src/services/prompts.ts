@@ -1,7 +1,7 @@
 export interface Prompt {
   id: number;
   text: string;
-  category: 'emotional' | 'creative' | 'philosophical';
+  category: 'emotional' | 'creative' | 'philosophical' | 'meta';
 }
 
 export const prompts: Prompt[] = [

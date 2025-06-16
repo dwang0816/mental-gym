@@ -1,85 +1,118 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import './App.css'
-import { getRandomPrompt } from './services/prompts'
-import { getAIReflectionStream, typewriterEffect } from './services/claude'
+import { prompts } from './services/prompts'
+import PromptCard from './components/PromptCard'
+import WriteArea from './components/WriteArea'
+import AIResponse from './components/AIResponse'
+import CommunityStats from './components/CommunityStats'
+import { 
+  initialCommunityStats, 
+  achievements as initialAchievements,
+  updateCommunityStats,
+  checkAchievements
+} from './services/stats'
+import type { CommunityStats as CommunityStatsType } from './services/stats'
+import type { Prompt } from './services/prompts'
+
+// Special rare question prompt
+const specialPrompt: Prompt = {
+  id: 999,
+  text: "What is one belief, habit, or assumption you hold that you've never truly questioned? Take a moment to challenge it now—what new perspective emerges when you do?",
+  category: 'meta',
+}
+
+function getRandomPromptWithSpecial(prompts: Prompt[], special: Prompt, specialChance = 0.04) {
+  // 4% chance to show the special prompt
+  if (Math.random() < specialChance) return special
+  const randomIndex = Math.floor(Math.random() * prompts.length)
+  return prompts[randomIndex]
+}
 
 function App() {
-  const [currentPrompt, setCurrentPrompt] = useState(getRandomPrompt())
+  const [showExample, setShowExample] = useState(true)
+  const [currentPrompt, setCurrentPrompt] = useState<Prompt>(prompts[0])
   const [userEntry, setUserEntry] = useState('')
   const [aiResponse, setAiResponse] = useState('')
   const [isLoading, setIsLoading] = useState(false)
-  const [showExample, setShowExample] = useState(true)
   const [isStreaming, setIsStreaming] = useState(false)
-  const [displayedPrompt, setDisplayedPrompt] = useState('')
-
-  // Typewriter effect for prompts
-  useEffect(() => {
-    setDisplayedPrompt('')
-    const cleanup = typewriterEffect(
-      currentPrompt.text,
-      (text) => setDisplayedPrompt(text),
-      () => {},
-      25
-    )
-    return cleanup
-  }, [currentPrompt.text])
-
-  const handleNewPrompt = () => {
-    const newPrompt = getRandomPrompt()
-    setCurrentPrompt(newPrompt)
-    setUserEntry('')
-    setAiResponse('')
-    setIsStreaming(false)
-  }
+  const [communityStats, setCommunityStats] = useState<CommunityStatsType>(initialCommunityStats)
+  const [userAchievements, setUserAchievements] = useState(initialAchievements)
+  const [userStats, setUserStats] = useState({
+    wordCount: 0,
+    reflectionCount: 0,
+    categories: new Set<Prompt['category']>(),
+    streak: 0
+  })
+  const [showMobileInsights, setShowMobileInsights] = useState(false)
 
   const handleStartWriting = () => {
     setShowExample(false)
   }
 
-  const handleGetAIFeedback = async () => {
-    if (!userEntry.trim()) {
-      alert('Please write something first!')
-      return
-    }
-
-    setIsLoading(true)
-    setIsStreaming(true)
+  const handleNewPrompt = () => {
+    setCurrentPrompt(getRandomPromptWithSpecial(prompts, specialPrompt))
+    setUserEntry('')
     setAiResponse('')
-
-    try {
-      await getAIReflectionStream(
-        userEntry,
-        currentPrompt.text,
-        // onChunk - called for each piece of streamed text
-        (chunk: string) => {
-          setAiResponse(prev => prev + chunk)
-        },
-        // onComplete - called when streaming is done
-        () => {
-          setIsLoading(false)
-          setIsStreaming(false)
-        },
-        // onError - called if there's an error
-        (errorMessage: string) => {
-          setAiResponse(errorMessage)
-          setIsLoading(false)
-          setIsStreaming(false)
-        }
-      )
-    } catch (error) {
-      console.error('Error getting AI feedback:', error)
-      setAiResponse("Thanks for sharing your thoughts! I'm having trouble connecting right now, but your reflection is valuable.")
-      setIsLoading(false)
-      setIsStreaming(false)
-    }
+    setIsStreaming(false)
   }
+
+  const handleAIResponse = (response: string) => {
+    const wordCount = userEntry.trim().split(/\s+/).filter(word => word.length > 0).length
+    const newUserStats = {
+      ...userStats,
+      wordCount: userStats.wordCount + wordCount,
+      reflectionCount: userStats.reflectionCount + 1,
+      categories: new Set([...userStats.categories, currentPrompt.category])
+    }
+
+    // Update community stats
+    const newCommunityStats = updateCommunityStats(communityStats, {
+      wordCount,
+      category: currentPrompt.category
+    })
+    setCommunityStats(newCommunityStats)
+
+    // Update user stats and check achievements
+    setUserStats(newUserStats)
+    const updatedAchievements = checkAchievements(userAchievements, newUserStats)
+    setUserAchievements(updatedAchievements)
+
+    setAiResponse(response)
+  }
+
+  // Determine if the current prompt is the special one
+  const isSpecialPrompt = currentPrompt.id === specialPrompt.id
 
   return (
     <div className="app">
       <header className="app-header">
-        <h1>Mental Gym 🧠</h1>
+        <h1 className="mental-gym-title">The Mental Gym</h1>
         <p>Daily prompts to strengthen your thinking</p>
       </header>
+
+      {/* Mobile Community Insights Toggle Button */}
+      <button
+        className="mobile-insights-toggle"
+        onClick={() => setShowMobileInsights((v) => !v)}
+        aria-label="Show Community Insights"
+      >
+        <span role="img" aria-label="community">📊</span> Community Insights
+      </button>
+
+      {/* Community Insights as a fixed-position box, not wrapped with main content */}
+      <div className="community-insights-fixed">
+        <CommunityStats stats={communityStats} />
+      </div>
+
+      {/* Mobile Community Insights Modal/Panel */}
+      {showMobileInsights && (
+        <div className="mobile-insights-modal" onClick={() => setShowMobileInsights(false)}>
+          <div className="mobile-insights-content" onClick={e => e.stopPropagation()}>
+            <button className="close-mobile-insights" onClick={() => setShowMobileInsights(false)} aria-label="Close Insights">✕</button>
+            <CommunityStats stats={communityStats} />
+          </div>
+        </div>
+      )}
 
       {/* Example Section */}
       {showExample && (
@@ -135,90 +168,17 @@ function App() {
       )}
 
       <main className="app-main">
-        {/* Prompt Card */}
-        <div className="prompt-card">
-          <div className="prompt-category">
-            <span className="category-emoji">
-              {currentPrompt.category === 'emotional' ? '💝' : 
-               currentPrompt.category === 'creative' ? '🎨' : '🤔'}
-            </span>
-            <span className="category-label">
-              {currentPrompt.category === 'emotional' ? 'Emotional Intelligence' :
-               currentPrompt.category === 'creative' ? 'Creative Thinking' : 'Deep Reflection'}
-            </span>
-          </div>
-          
-          <div className="prompt-text">
-            {displayedPrompt}
-            {displayedPrompt.length < currentPrompt.text.length && (
-              <span className="typing-cursor">|</span>
-            )}
-          </div>
-          
-          <button className="new-prompt-btn" onClick={handleNewPrompt}>
-            Try Another Prompt
-          </button>
-        </div>
-
-        {/* Write Area */}
-        <div className="write-area">
-          <div className="write-header">
-            <h3>Your Thoughts</h3>
-            <span className="word-count">
-              {userEntry.trim().split(/\s+/).filter(word => word.length > 0).length} words
-            </span>
-          </div>
-          
-          <textarea
-            value={userEntry}
-            onChange={(e) => setUserEntry(e.target.value)}
-            onFocus={handleStartWriting}
-            placeholder="Start writing your thoughts here... Take your time and be honest with yourself."
-            className="write-textarea"
-            rows={8}
-          />
-          
-          <div className="write-actions">
-            <button 
-              onClick={handleGetAIFeedback}
-              disabled={isLoading || !userEntry.trim()}
-              className="ai-feedback-btn"
-            >
-              {isLoading ? 'Getting thoughtful feedback...' : 'Get AI Reflection'}
-            </button>
-            
-            {userEntry.length > 20 && !aiResponse && (
-              <p className="ai-hint">
-                ✨ Ready for some thoughtful feedback? Click above when you're done writing.
-              </p>
-            )}
-          </div>
-        </div>
-
-        {/* AI Response */}
+        <PromptCard prompt={currentPrompt} onNewPrompt={handleNewPrompt} special={isSpecialPrompt} />
+        <WriteArea
+          value={userEntry}
+          onChange={setUserEntry}
+          prompt={currentPrompt}
+          onAIResponse={handleAIResponse}
+          isLoading={isLoading}
+          setIsLoading={setIsLoading}
+        />
         {(aiResponse || isStreaming) && (
-          <div className="ai-response">
-            <div className="ai-response-header">
-              <h3>💭 AI Reflection</h3>
-              <span className="ai-badge">
-                {isStreaming ? 'Thinking...' : 'Powered by ChatGPT'}
-              </span>
-            </div>
-            
-            <div className="ai-response-content">
-              {aiResponse}
-              {isStreaming && (
-                <span className="streaming-cursor">▋</span>
-              )}
-            </div>
-            
-            <div className="ai-response-footer">
-              <p className="ai-disclaimer">
-                This reflection is generated by AI to help you think deeper. 
-                Your thoughts and experiences are uniquely yours.
-              </p>
-            </div>
-          </div>
+          <AIResponse response={aiResponse} />
         )}
       </main>
     </div>
